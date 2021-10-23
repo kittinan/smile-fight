@@ -1,144 +1,123 @@
 import Head from 'next/head'
+import Router from 'next/router'
 
 import Layout from "../components/Layout";
 
 import Button from '@mui/material/Button';
 import React, { Component } from 'react';
 
+
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+
+import axios from 'axios';
+
 import Swal from 'sweetalert2'
 
-import * as faceapi from 'face-api.js';
-
-//import * as faceapi from '@vladmandic/face-api/dist/face-api.esm.js';
-
-//import * as faceapi from '@vladmandic/face-api';
-
-//import * as faceapi from '@vladmandic/face-api';
-
 import { width } from '@mui/system';
+
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+);
 
 
 class Home extends React.Component {
 
-  async componentDidMount() {
-    console.log(faceapi)
-    console.log(faceapi.nets)
-
-    //await faceapi.tf.setBackend('webgl');
-    //await faceapi.tf.enableProdMode();
-    //await faceapi.tf.ENV.set('DEBUG', false);
-    //await faceapi.tf.ready();
-
-
-    /*
-    faceapi.tf.setWasmPaths({
-      'tfjs-backend-wasm.wasm': '/wasm/tfjs-backend-wasm.wasm',
-      'tfjs-backend-wasm-simd.wasm': '/wasm/tfjs-backend-wasm-simd.wasm',
-      'tfjs-backend-wasm-threaded-simd.wasm': '/wasm/tfjs-backend-wasm-threaded-simd.wasm'
-    });
-
-
-    faceapi.tf.setBackend('wasm');
-    */
-
-    faceapi.tf.setBackend('webgl');
-
-
-    //console.log(this.net)
-    faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
-    //faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-
-
-    //faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-    //faceapi.nets.faceRecognitionNet.loadFromUri('/models');
-    faceapi.nets.faceExpressionNet.loadFromUri('/models');
-
-
-
-    this.initCamera()
-  }
-
-  async initCamera() {
-    const self = this;
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: {
-        width: 320,
-        height: 240,
-        frameRate: 15
-      }
-    });
-
-    this.video.srcObject = stream;
-    this.video.play();
-
-  }
-
-  async predict() {
-    const input = this.video;
-
-    var startTime = performance.now()
-
-
-    //const results = await faceapi.detectAllFaces(input).withFaceExpressions()
-    const results = await faceapi.detectSingleFace(input).withFaceExpressions()
-    //const results = await faceapi.detectSingleFace(input, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions()
-    console.log(results)
-
-    if (typeof (results) == 'undefined') {
-      setTimeout(() => this.predict());
-      return;
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "Tun"
     }
-    //withFaceDescriptor()
 
-    //faceapi.drawDetection('overlay', results.map(res => res.detection), { withScore: true })
 
-    const displaySize = { width: input.videoWidth, height: input.videoHeight }
-    // resize the overlay canvas to the input dimensions
-    faceapi.matchDimensions(this.canvas, displaySize)
-
-    const resizedDetections = faceapi.resizeResults(results, displaySize)
-    //faceapi.draw.drawDetections(this.canvas, resizedDetections)
-    faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections, 0.5)
-
-    console.log(results)
-    var endTime = performance.now()
-
-    console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-
-    setTimeout(() => this.predict());
   }
 
-  async xalert() {
-    /*
-    Swal.fire({
-      title: 'Error!',
-      text: 'Do you want to continue',
-      icon: 'error',
-      confirmButtonText: 'Cool'
-    })
-    */
+  componentDidMount() {
+    const { pathname } = Router
 
-    // console.log(this.net)
-    this.predict()
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      //Router.push("smile");
+    }
+  }
+
+  play() {
+
+    const { name } = this.state;
+    console.log("name: " + name)
+
+    const url = 'http://127.0.0.1:8787/user/create'
+
+    const payload = {
+      name: name
+    }
+
+
+    axios.post(url, payload)
+      .then(function (response) {
+
+        if (response.status != 200) {
+          // TODO: error
+          return;
+        }
+
+        const { token, name, country } = response.data;
+        console.log(response);
+        console.log(token)
+
+        localStorage.setItem("token", token)
+        localStorage.setItem("name", name)
+        localStorage.setItem("country", country)
+
+        Router.push("smile")
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    //Router.push("smile")
+  }
+
+
+
+  onNameChange(value) {
+    this.setState({
+      name: value
+    });
   }
 
 
   render() {
+    const { name } = this.state;
+
     return (
       <Layout>
-        <marquee>Kittinan</marquee>
-        <button onClick={() => this.xalert()}>Click</button>
-        <div>
-
-          <div className="webcam-container">
-            <video ref={ref => this.video = ref}></video>
-            <canvas ref={ref => this.canvas = ref}></canvas>
-          </div>
-          {/*
-          <img id="myImg" src="images/IMG_20211017_161512.jpg" style={{ width: 500 }} ref={ref => this.img = ref} />
-          */}
-        </div>
+        <Card sx={{ minWidth: 275 }} className="center play-container">
+          <CardContent sx={{ alignItems: 'center' }}>
+            <TextField
+              required
+              id="name"
+              label="Your name"
+              value={name}
+              onChange={e => this.onNameChange(e.target.value)}
+            />
+          </CardContent>
+          <CardActions className="center">
+            <Button variant="contained" onClick={() => {
+              this.play();
+            }} >Play</Button>
+          </CardActions>
+        </Card>
       </Layout>
     )
   }

@@ -1,9 +1,21 @@
 .webcam-container {
   position: relative;
+  min-height: 250px;
 }
 
 .webcam-container * {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.play-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.center {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
