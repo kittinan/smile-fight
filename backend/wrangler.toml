@@ -1,0 +1,11 @@
+name = "smile"
+type = "webpack"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2021-10-22"
+
+kv_namespaces = [ 
+  { binding = "USER", id = "92721677a44a4c7eab3ad0c940f431bf", preview_id = "8e2e9f5c0f7e4a348758645131d0c801" }
+]
