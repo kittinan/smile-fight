@@ -48,6 +48,6 @@
 }
 
 .link-head {
-  color: #fff;
-  text-decoration: none;
+  color: #fff !important;
+  text-decoration: none !important;
 }

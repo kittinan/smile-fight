@@ -25,6 +25,16 @@ export default function Album(props) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+
+      <Head>
+        <title>Smile Fight</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet="utf-8" />
+
+        <link href="https://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
+
+      </Head>
+
       <AppBar position="relative">
         <Toolbar>
 
@@ -36,14 +46,7 @@ export default function Album(props) {
         </Toolbar>
       </AppBar>
 
-      <Head>
-        <title>Smile Fight</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="utf-8" />
 
-        <link href="https://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
-
-      </Head>
       <main>
         {/* Hero unit */}
         <Box
