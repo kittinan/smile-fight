@@ -130,7 +130,7 @@ class Home extends React.Component {
   startGame() {
     this.setState({
       score: 0.0,
-      countDown: 10,
+      countDown: 15,
       isRunPrediction: true,
     }, this.predict)
 
