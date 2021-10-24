@@ -27,7 +27,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Tun"
+      name: ""
     }
 
 
@@ -63,6 +63,15 @@ class Home extends React.Component {
     const { name } = this.state;
     console.log("name: " + name)
 
+    if (name.length == 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please insert your name'
+      })
+      return;
+    }
+
     const url = this.props.BASE_API_URL + '/user/create';
 
     const payload = {
@@ -82,8 +91,6 @@ class Home extends React.Component {
         }
 
         const { token, name, country } = response.data;
-        console.log(response);
-        console.log(token)
 
         localStorage.setItem("token", token)
         localStorage.setItem("name", name)

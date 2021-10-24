@@ -142,7 +142,6 @@ class Home extends React.Component {
   }
 
   onCountDown() {
-    console.log("onCountDown")
     const { countDown } = this.state;
     if (countDown <= 0) {
 
@@ -175,7 +174,7 @@ class Home extends React.Component {
     const input = this.video;
 
     let { score, latestSaveScore, isRunPrediction } = this.state;
-    console.log(isRunPrediction)
+    //console.log(isRunPrediction)
 
     if (!isRunPrediction) {
       return;
@@ -194,7 +193,7 @@ class Home extends React.Component {
     //const results = await faceapi.detectAllFaces(input).withFaceExpressions()
     //const results = await faceapi.detectSingleFace(input).withFaceExpressions()
     const results = await faceapi.detectSingleFace(input, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions()
-    console.log(results)
+    //console.log(results)
 
     if (typeof (results) == 'undefined') {
       setTimeout(() => this.predict());
@@ -215,7 +214,7 @@ class Home extends React.Component {
     //console.log(results)
     var endTime = performance.now()
 
-    console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+    //console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 
     const happy = results.expressions.happy;
     /*
@@ -228,10 +227,10 @@ class Home extends React.Component {
     const currentScore = happy;
 
 
-    console.log(`happy: ${happy} | currentScore: ${currentScore}`)
+    //console.log(`happy: ${happy} | currentScore: ${currentScore}`)
 
     const newScore = parseFloat(score) + currentScore;
-    console.log(typeof (newScore))
+    //console.log(typeof (newScore))
 
     //scores.push({ happy: results.expressions.happy, created: new Date() })
     //this.setState({ scores: scores })
@@ -241,24 +240,6 @@ class Home extends React.Component {
     this.setState({ latestSaveScore: Date.now(), score: newScore });
 
     setTimeout(() => this.predict());
-  }
-
-  async xalert() {
-    /*
-    Swal.fire({
-      title: 'Error!',
-      text: 'Do you want to continue',
-      icon: 'error',
-      confirmButtonText: 'Cool'
-    })
-    */
-
-    // console.log(this.net)
-    //this.predict()
-
-    const payload = this.generatePayload(95)
-
-    console.log(payload)
   }
 
   onClickedSubmit() {
