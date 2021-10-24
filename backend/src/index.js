@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     res.body = 'Hello World!'
 })
 
-router.post('/user/create', (req, res) => {
+router.post('/user/create', async (req, res) => {
 
     const { name } = req.body;
     const { country } = req.event.request.cf;
@@ -18,7 +18,7 @@ router.post('/user/create', (req, res) => {
 
     const data = { name: name, country: country, maxScore: 0, scores: [] };
 
-    USER.put(token, JSON.stringify(data));
+    await USER.put(token, JSON.stringify(data));
 
     res.body = { token: token, name: name, country: country };
 })
@@ -73,7 +73,7 @@ router.post('/score/submit', async (req, res) => {
 
     user_info.scores.push({ createAt: serverCreateTime, score: data.score })
 
-    USER.put(token, JSON.stringify(user_info));
+    await USER.put(token, JSON.stringify(user_info));
 
     const min_score = Math.min(...score_boards.flatMap(r => r.score))
 
@@ -87,7 +87,7 @@ router.post('/score/submit', async (req, res) => {
             createAt: Date.now(),
         })
         score_boards.sort((a, b) => (a.score > b.score) ? -1 : 1).slice(0, 100)
-        USER.put('score_boards', JSON.stringify(score_boards));
+        await USER.put('score_boards', JSON.stringify(score_boards));
     }
 
     //console.log(`min_score: ${min_score}`)
