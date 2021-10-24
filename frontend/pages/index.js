@@ -61,7 +61,7 @@ class Home extends React.Component {
     const { name } = this.state;
     console.log("name: " + name)
 
-    const url = 'http://127.0.0.1:8787/user/create'
+    const url = this.props.BASE_API_URL + '/user/create';
 
     const payload = {
       name: name
@@ -134,3 +134,11 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+export async function getStaticProps(context) {
+  const BASE_API_URL = process.env.BASE_API_URL;
+
+  return {
+    props: { BASE_API_URL: BASE_API_URL }
+  }
+}

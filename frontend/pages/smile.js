@@ -275,8 +275,7 @@ class Home extends React.Component {
 
     this.showLoading();
 
-
-    const url = 'http://127.0.0.1:8787/score/submit'
+    const url = this.props.BASE_API_URL + '/score/submit';
 
     axios.post(url, reqPayload)
       .then(function (response) {
@@ -384,3 +383,11 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+export async function getStaticProps(context) {
+  const BASE_API_URL = process.env.BASE_API_URL;
+
+  return {
+    props: { BASE_API_URL: BASE_API_URL }
+  }
+}
