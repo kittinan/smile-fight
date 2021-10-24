@@ -20,6 +20,8 @@ import Swal from 'sweetalert2'
 
 import { width } from '@mui/system';
 
+import ScoreBoard from '../components/scoreboard';
+
 class Home extends React.Component {
 
   constructor(props) {
@@ -127,6 +129,10 @@ class Home extends React.Component {
             }} >Play</Button>
           </CardActions>
         </Card>
+
+        <br />
+
+        <ScoreBoard BASE_API_URL={this.props.BASE_API_URL} />
       </Layout>
     )
   }

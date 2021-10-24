@@ -27,6 +27,8 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
+
+import ScoreBoard from '../components/scoreboard';
 class Home extends React.Component {
 
   constructor(props) {
@@ -376,6 +378,10 @@ class Home extends React.Component {
             }
           </CardActions>
         </Card>
+
+        <br />
+
+        <ScoreBoard BASE_API_URL={this.props.BASE_API_URL} />
 
 
       </Layout>
