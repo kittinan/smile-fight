@@ -27,8 +27,6 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
-
-import VConsole from 'vconsole';
 class Home extends React.Component {
 
   constructor(props) {
@@ -45,7 +43,7 @@ class Home extends React.Component {
       isPlayed: false,
     }
 
-    const vConsole = new VConsole({ maxLogNumber: 1000 });
+
   }
 
   showLoading() {

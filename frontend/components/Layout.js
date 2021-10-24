@@ -33,6 +33,11 @@ export default function Album(props) {
 
         <link href="https://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
 
+        <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+        <script>
+          var vConsole = new window.VConsole();
+        </script>
+
       </Head>
 
       <AppBar position="relative">
