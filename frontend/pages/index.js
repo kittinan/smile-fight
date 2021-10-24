@@ -113,15 +113,31 @@ class Home extends React.Component {
 
     return (
       <Layout>
-        <Card sx={{ minWidth: 275 }} className="center play-container">
-          <CardContent sx={{ alignItems: 'center' }}>
-            <TextField
-              required
-              id="name"
-              label="Your name"
-              value={name}
-              onChange={e => this.onNameChange(e.target.value)}
-            />
+        <Card sx={{ minWidth: 275 }} className="play-container">
+          <CardContent>
+
+            <div>
+              <h2 className="center">Read before play!</h2>
+              <ul>
+                <li>You smile, you score.</li>
+                <li>We do not collect any of your face data.</li>
+                <li>Score process in client-side with <a target="_BLANK" href="https://www.tensorflow.org/js">TensorFlow.js</a> and <a href="https://github.com/justadudewhohacks/face-api.js/" target="_BLANK">face-api.js</a></li>
+              </ul>
+
+            </div>
+
+            <br />
+
+            <div className="center">
+
+              <TextField
+                required
+                id="name"
+                label="Your name"
+                value={name}
+                onChange={e => this.onNameChange(e.target.value)}
+              />
+            </div>
           </CardContent>
           <CardActions className="center">
             <Button variant="contained" onClick={() => {
