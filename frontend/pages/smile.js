@@ -22,10 +22,11 @@ import ReactCountryFlag from "react-country-flag"
 import AES from 'crypto-js/aes';
 
 import axios from 'axios';
-
 import Box from '@mui/material/Box';
-
-
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
 class Home extends React.Component {
 
   constructor(props) {
@@ -39,7 +40,22 @@ class Home extends React.Component {
       latestSaveScore: Date.now(),
       countDown: 0,
       isRunPrediction: false,
+      isPlayed: false,
     }
+  }
+
+  showLoading() {
+    Swal.fire({
+      title: 'Loading',
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    })
+  }
+
+  hideLoading() {
+    Swal.close();
   }
 
   async componentDidMount() {
@@ -145,16 +161,16 @@ class Home extends React.Component {
 
     this.setState({
       isRunPrediction: false,
+      isPlayed: true,
     })
 
-    console.log(score)
-    this.submitScore(score)
+    console.log(`score: ${score}`)
   }
 
   async predict() {
     const input = this.video;
 
-    let { score, scores, latestSaveScore, isRunPrediction } = this.state;
+    let { score, latestSaveScore, isRunPrediction } = this.state;
     console.log(isRunPrediction)
 
     if (!isRunPrediction) {
@@ -186,20 +202,32 @@ class Home extends React.Component {
 
     const displaySize = { width: input.videoWidth, height: input.videoHeight }
     // resize the overlay canvas to the input dimensions
-    faceapi.matchDimensions(this.canvas, displaySize)
+    //faceapi.matchDimensions(this.canvas, displaySize)
 
-    const resizedDetections = faceapi.resizeResults(results, displaySize)
+    //const resizedDetections = faceapi.resizeResults(results, displaySize)
     //faceapi.draw.drawDetections(this.canvas, resizedDetections)
-    faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections, 0.5)
+    //faceapi.draw.drawFaceExpressions(this.canvas, resizedDetections, 0.5)
 
-    console.log(results)
+    //console.log(results)
     var endTime = performance.now()
 
     console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 
     const happy = results.expressions.happy;
-    const newScore = parseFloat(score) + parseFloat(parseFloat(happy * 10).toFixed(3))
-    console.log(happy)
+    /*
+    let currentScore = 0;
+    if (happy > 0.8) {
+      //currentScore = parseFloat(parseFloat(happy * 1).toFixed(3))
+      currentScore = happy;
+    }
+    */
+    const currentScore = happy;
+
+
+    console.log(`happy: ${happy} | currentScore: ${currentScore}`)
+
+    const newScore = parseFloat(score) + currentScore;
+    console.log(typeof (newScore))
 
     //scores.push({ happy: results.expressions.happy, created: new Date() })
     //this.setState({ scores: scores })
@@ -235,6 +263,7 @@ class Home extends React.Component {
   }
 
   submitScore(score) {
+    const self = this;
     const { token } = this.state;
     const payload = this.generatePayload(score)
 
@@ -244,6 +273,7 @@ class Home extends React.Component {
       payload: payload
     }
 
+    this.showLoading();
 
 
     const url = 'http://127.0.0.1:8787/score/submit'
@@ -251,16 +281,27 @@ class Home extends React.Component {
     axios.post(url, reqPayload)
       .then(function (response) {
 
+        self.hideLoading();
+
         console.log(response);
+
+        self.setState({ isPlayed: false });
 
         if (response.status != 200) {
           // TODO: error
           return;
         }
 
+        Swal.fire(
+          'Success!',
+          '',
+          'success'
+        )
+
 
       })
       .catch(function (error) {
+        self.hideLoading();
         console.log(error);
       });
   }
@@ -280,41 +321,60 @@ class Home extends React.Component {
 
 
   render() {
-    const { name, country, score, countDown } = this.state;
+    const { name, country, score, countDown, isRunPrediction, isPlayed } = this.state;
+    console.log(score, typeof (score))
+    const displayScore = score.toFixed(2);
+    const playText = isPlayed ? 'Try Again' : 'Start';
+    const playColor = isPlayed ? 'error' : 'success';
     console.log(country)
     return (
       <Layout>
 
-        <div>
-          <span>{name}</span>
-          <ReactCountryFlag countryCode={country} />
-        </div>
 
-        <div>
-          <div>{countDown}</div>
-          <div>Score: {score}</div>
-          <div></div>
-        </div>
+        <Card sx={{ minWidth: 275 }} className="center play-container">
+          <CardContent sx={{ alignItems: 'center' }}>
 
-        <div>
+            <div className="font-game">
+              <span>{name}</span> &nbsp;
+              <ReactCountryFlag countryCode={country} />
+            </div>
 
-          <div className="webcam-container">
-            <video ref={ref => this.video = ref}></video>
-            <canvas ref={ref => this.canvas = ref}></canvas>
-          </div>
-        </div>
+            <div className="space"></div>
 
-        <div>
+            <div className="game-head">
+              <div className="time-container">Time: {countDown}</div>
+              <div className="score-container">Score: {displayScore}</div>
+              <div className="space"></div>
+            </div>
 
-          <Button variant="contained" onClick={() => {
-            this.startGame();
-          }} >Start</Button>
+            <div>
 
-          <Button variant="contained" onClick={() => {
-            this.onClickedSubmit();
-          }} >Submit</Button>
-        </div>
+              <div className="webcam-container">
+                <video id="video-player" ref={ref => this.video = ref}></video>
+                {/*
+                <canvas ref={ref => this.canvas = ref}></canvas>
+                */}
+              </div>
+            </div>
 
+
+          </CardContent>
+          <CardActions className="center">
+
+            {!isRunPrediction &&
+              <Button variant="contained" onClick={() => {
+                this.startGame();
+              }} color={playColor}>{playText}
+              </Button>
+            }
+
+            {!isRunPrediction && isPlayed &&
+              <Button variant="contained" onClick={() => {
+                this.onClickedSubmit();
+              }} color="success">Submit Score</Button>
+            }
+          </CardActions>
+        </Card>
 
 
       </Layout>

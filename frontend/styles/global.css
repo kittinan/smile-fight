@@ -1,13 +1,17 @@
 .webcam-container {
+  /*
   position: relative;
   min-height: 250px;
+  */
+  width: 100%;
 }
 
-.webcam-container * {
-  position: absolute;
-  top: 0;
-  left: 0;
+#video-player {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
 }
+
 
 .play-container {
   padding-top: 20px;
@@ -18,4 +22,32 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+}
+
+.font-game {
+  font-family: 'dead wallace UP', "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 34px;
+}
+
+.game-head {
+  font-family: 'dead wallace UP', "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 30px;
+}
+
+.time-container {
+  float: left;
+}
+
+.score-container {
+  float: right;
+}
+
+.space {
+  clear: both;
+  margin-bottom: 20px;
+}
+
+.link-head {
+  color: #fff;
+  text-decoration: none;
 }

@@ -16,20 +16,8 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MoodIcon from '@mui/icons-material/Mood';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Head from "next/head";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
@@ -39,12 +27,23 @@ export default function Album(props) {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
+
           <MoodIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
-            Smile Fight
+            <Link href="/" className="link-head font-game">Smile Fight</Link>
           </Typography>
+
         </Toolbar>
       </AppBar>
+
+      <Head>
+        <title>Smile Fight</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet="utf-8" />
+
+        <link href="http://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
+
+      </Head>
       <main>
         {/* Hero unit */}
         <Box

@@ -20,16 +20,6 @@ import Swal from 'sweetalert2'
 
 import { width } from '@mui/system';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
-
 class Home extends React.Component {
 
   constructor(props) {
@@ -51,8 +41,23 @@ class Home extends React.Component {
     }
   }
 
+  showLoading() {
+    Swal.fire({
+      title: 'Loading',
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    })
+  }
+
+  hideLoading() {
+    Swal.close();
+  }
+
   play() {
 
+    const self = this;
     const { name } = this.state;
     console.log("name: " + name)
 
@@ -62,9 +67,12 @@ class Home extends React.Component {
       name: name
     }
 
+    this.showLoading();
 
     axios.post(url, payload)
       .then(function (response) {
+
+        self.hideLoading()
 
         if (response.status != 200) {
           // TODO: error
@@ -82,6 +90,7 @@ class Home extends React.Component {
         Router.push("smile")
       })
       .catch(function (error) {
+        self.hideLoading()
         console.log(error);
       });
 
