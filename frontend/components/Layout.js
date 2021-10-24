@@ -41,7 +41,7 @@ export default function Album(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
 
-        <link href="http://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
+        <link href="https://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
 
       </Head>
       <main>
