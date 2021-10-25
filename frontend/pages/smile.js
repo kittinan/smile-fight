@@ -203,7 +203,7 @@ class Home extends React.Component {
 
     //faceapi.drawDetection('overlay', results.map(res => res.detection), { withScore: true })
 
-    const displaySize = { width: input.videoWidth, height: input.videoHeight }
+    //const displaySize = { width: input.videoWidth, height: input.videoHeight }
     // resize the overlay canvas to the input dimensions
     //faceapi.matchDimensions(this.canvas, displaySize)
 
@@ -214,7 +214,7 @@ class Home extends React.Component {
     //console.log(results)
     var endTime = performance.now()
 
-    //console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+    console.log(`inference time: ${endTime - startTime} ms`)
 
     const happy = results.expressions.happy;
     /*
@@ -237,9 +237,11 @@ class Home extends React.Component {
 
 
 
-    this.setState({ latestSaveScore: Date.now(), score: newScore });
+    this.setState({ latestSaveScore: Date.now(), score: newScore }, function () {
+      setTimeout(() => this.predict());
+    });
 
-    setTimeout(() => this.predict());
+
   }
 
   onClickedSubmit() {
@@ -306,11 +308,10 @@ class Home extends React.Component {
 
   render() {
     const { name, country, score, countDown, isRunPrediction, isPlayed } = this.state;
-    console.log(score, typeof (score))
+
     const displayScore = score.toFixed(2);
     const playText = isPlayed ? 'Try Again' : 'Start';
     const playColor = isPlayed ? 'error' : 'success';
-    console.log(country)
     return (
       <Layout>
 
