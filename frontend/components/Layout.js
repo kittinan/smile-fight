@@ -31,7 +31,23 @@ export default function Album(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
 
+        <meta name="description" content="Smile Fight" />
+        <meta name="keywords" content="Smile Fight" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Smile Fight" />
+        <meta property="og:description" content="You smile, you score." />
+        <meta property="og:image" content="/cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="600" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="Smile Fight" />
+        <meta property="twitter:description" content="You smile, you score." />
+        <meta property="twitter:image" content="https://smile-fight.pages.dev/cover.jpg"></meta>
+
         <link href="https://fonts.cdnfonts.com/css/dead-wallace" rel="stylesheet" />
+
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
 
         {/* 
         <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
